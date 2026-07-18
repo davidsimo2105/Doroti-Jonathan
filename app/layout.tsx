@@ -1,16 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Alex_Brush } from "next/font/google";
+import { Prata, Great_Vibes } from "next/font/google";
 import LoadingScreen from "./loading-screen";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
+const serif = Prata({
   variable: "--font-serif",
   subsets: ["latin", "latin-ext"],
-  weight: ["300", "400", "500", "600"],
-  style: ["normal", "italic"],
+  weight: "400",
+  style: ["normal"],
 });
 
-const script = Alex_Brush({
+const script = Great_Vibes({
   variable: "--font-script",
   subsets: ["latin"],
   weight: "400",
@@ -32,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="hu" className={`${cormorant.variable} ${script.variable}`}>
+    <html lang="hu" className={`${serif.variable} ${script.variable}`}>
       <body>
         <LoadingScreen />
         {children}

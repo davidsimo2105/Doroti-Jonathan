@@ -4,11 +4,20 @@ import { useState, type FormEvent } from "react";
 
 const RSVP_EMAIL = "doroti.mink@gmail.com";
 
+function onlyDigits(value: string) {
+  return value.replace(/[^0-9]/g, "");
+}
+
+function onlyAgesList(value: string) {
+  return value.replace(/[^0-9,\s]/g, "");
+}
+
 export default function RsvpForm() {
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [guestCount, setGuestCount] = useState("");
   const [childCount, setChildCount] = useState("");
+  const [childAges, setChildAges] = useState("");
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -16,7 +25,9 @@ export default function RsvpForm() {
     const children = Number(childCount) || 0;
     const fullName = `${firstName} ${lastName}`.trim();
     const subjectName = `${lastName} ${firstName}`.trim();
-    const childrenClause = children > 0 ? `, melyből ${children} gyermek` : "";
+    const agesNote = children > 0 && childAges ? ` (${childAges} éves)` : "";
+    const childrenClause =
+      children > 0 ? `, melyből ${children} gyermek${agesNote}` : "";
 
     const subject = `${subjectName} - ${guestCount} fő, ${children} gyerek – Doroti & Jonatán esküvő visszajelzés`;
     const body = [
@@ -31,6 +42,7 @@ export default function RsvpForm() {
       `Név: ${fullName}`,
       `Létszám: ${guestCount} fő`,
       `Ebből gyermek: ${children} fő`,
+      ...(children > 0 && childAges ? [`Gyerekek életkora: ${childAges}`] : []),
     ].join("\n");
 
     const mailto = `mailto:${RSVP_EMAIL}?subject=${encodeURIComponent(
@@ -70,24 +82,38 @@ export default function RsvpForm() {
           <span className="label">Létszám</span>
           <input
             className="formInput"
-            type="number"
-            min={1}
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
             required
             value={guestCount}
-            onChange={(e) => setGuestCount(e.target.value)}
+            onChange={(e) => setGuestCount(onlyDigits(e.target.value))}
           />
         </label>
         <label className="formField">
-          <span className="label">Ebből gyerekek</span>
+          <span className="label">Gyerekek</span>
           <input
             className="formInput"
-            type="number"
-            min={0}
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
             value={childCount}
-            onChange={(e) => setChildCount(e.target.value)}
+            onChange={(e) => setChildCount(onlyDigits(e.target.value))}
           />
         </label>
       </div>
+
+      <label className="formField">
+        <span className="label">Gyerekek életkora</span>
+        <input
+          className="formInput"
+          type="text"
+          inputMode="numeric"
+          placeholder="pl. 5, 8"
+          value={childAges}
+          onChange={(e) => setChildAges(onlyAgesList(e.target.value))}
+        />
+      </label>
 
       <button className="submitButton" type="submit">
         Visszajelzés küldése

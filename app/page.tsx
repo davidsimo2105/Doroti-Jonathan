@@ -21,7 +21,9 @@ export default function Home() {
 
       <section className="section">
         <h1 className="names">
-          Doroti <span className="amp">&amp;</span> Jonatán
+          Doroti <span className="amp">&amp;</span>
+          <br />
+          Jonatán
         </h1>
         <p className="date">2026. 10. 11.</p>
       </section>
@@ -62,38 +64,37 @@ export default function Home() {
       <div className="divider" />
 
       <section className="section">
-        <p className="label">Dresscode</p>
-        <p className="value">Sötét földszínek</p>
-      </section>
-
-      <div className="divider" />
-
-      <section className="section">
         <p className="body">
           Kérünk benneteket, hogy részvételi szándékotokat
           <br />
-          2026. augusztus 24-ig bezárólag jelezzétek számunkra.
+          <strong>2026. augusztus 24-ig</strong> bezárólag
+          <br />
+          jelezzétek számunkra.
         </p>
         <p className="body">
-          Amennyiben gyermekeitekkel együtt érkeznétek, kérjük,
+          Amennyiben gyermekeitekkel együtt érkeznétek,
           <br />
-          ezt a visszajelzésben külön jelezzétek.
+          kérjük, ezt a visszajelzésben <strong>külön jelezzétek</strong>.
         </p>
 
         <div className="contact">
           <p className="label">Kapcsolattartó</p>
           <span className="name">Mink Doroti</span>
           <a href="tel:+36303293832">+36 30 329 3832</a>
-          <br />
-          <a href="mailto:doroti.mink@gmail.com">doroti.mink@gmail.com</a>
         </div>
       </section>
 
       <div className="divider" />
 
       <section className="section">
-        <p className="label">Visszajelzés</p>
         <RsvpForm />
+      </section>
+
+      <div className="divider" />
+
+      <section className="section">
+        <p className="label">Dresscode</p>
+        <p className="value">Sötét földszínek</p>
       </section>
     </main>
   );
