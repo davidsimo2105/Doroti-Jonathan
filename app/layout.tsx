@@ -5,7 +5,7 @@ import "./globals.css";
 
 const serif = Prata({
   variable: "--font-serif",
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin"],
   weight: "400",
   style: ["normal"],
 });
