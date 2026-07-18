@@ -68,12 +68,14 @@ export default function Home() {
 
       <section className="section">
         <p className="body">
-          Kérünk benneteket, hogy részvételi szándékotokat 2026. augusztus
-          24-ig bezárólag jelezzétek számunkra.
+          Kérünk benneteket, hogy részvételi szándékotokat
+          <br />
+          2026. augusztus 24-ig bezárólag jelezzétek számunkra.
         </p>
         <p className="body">
-          Amennyiben gyermekeitekkel együtt érkeznétek, kérjük, ezt a
-          visszajelzésben külön jelezzétek.
+          Amennyiben gyermekeitekkel együtt érkeznétek, kérjük,
+          <br />
+          ezt a visszajelzésben külön jelezzétek.
         </p>
 
         <div className="contact">

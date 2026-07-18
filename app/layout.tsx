@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Alex_Brush } from "next/font/google";
+import LoadingScreen from "./loading-screen";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -16,7 +17,7 @@ const script = Alex_Brush({
 });
 
 export const metadata: Metadata = {
-  title: "Doroti & Jonatán — Esküvő",
+  title: "Doroti & Jonatán",
   description: "Doroti és Jonatán esküvői meghívója — 2026.10.11.",
 };
 
@@ -32,7 +33,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="hu" className={`${cormorant.variable} ${script.variable}`}>
-      <body>{children}</body>
+      <body>
+        <LoadingScreen />
+        {children}
+      </body>
     </html>
   );
 }
