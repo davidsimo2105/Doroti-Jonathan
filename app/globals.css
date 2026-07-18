@@ -1,0 +1,243 @@
+:root {
+  --background: #152722;
+  --foreground: #b2cbaf;
+  color-scheme: dark;
+}
+
+html {
+  height: 100%;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100%;
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-serif), "Times New Roman", serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.loadingScreen {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background);
+  transition: opacity 0.7s ease;
+}
+
+.loadingScreen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loadingScreen img {
+  width: 56px;
+  height: auto;
+  animation: loadingPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes loadingPulse {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loadingScreen img {
+    animation: none;
+    opacity: 0.8;
+  }
+}
+
+/* Mobile-first: base rules target small screens, min-width queries scale up. */
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 1.5rem 5rem;
+}
+
+.logo {
+  width: 84px;
+  height: auto;
+  margin-bottom: 2.5rem;
+  opacity: 0.92;
+}
+
+.section {
+  width: 100%;
+  max-width: 30rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.section:first-of-type {
+  padding-top: 0;
+}
+
+.divider {
+  width: 40px;
+  height: 1px;
+  background: var(--foreground);
+  opacity: 0.35;
+}
+
+.names {
+  font-size: 2.1rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 0.9;
+}
+
+.names .amp {
+  font-family: var(--font-script), cursive;
+  font-size: 2.4rem;
+  text-transform: none;
+  letter-spacing: 0;
+  display: inline-block;
+  margin: 0 0.35rem;
+  vertical-align: -0.1em;
+}
+
+.date {
+  margin-top: 1rem;
+  font-size: 1.25rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+.quote {
+  font-size: 1.2rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.75;
+  opacity: 0.95;
+}
+
+.quoteRef {
+  margin-top: 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+.label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  opacity: 0.9;
+  margin-bottom: 0.85rem;
+}
+
+.value {
+  font-size: 1.3rem;
+  line-height: 1.6;
+}
+
+.detailGap {
+  margin-top: 2rem;
+}
+
+.link {
+  display: inline-block;
+  margin-top: 0.9rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-bottom: 1px solid currentColor;
+  opacity: 0.75;
+  padding-bottom: 2px;
+}
+
+.body {
+  font-size: 0.95rem;
+  line-height: 1.85;
+  opacity: 0.9;
+}
+
+.body + .body {
+  margin-top: 1.1rem;
+}
+
+.contact {
+  margin-top: 1.5rem;
+  font-size: 1.15rem;
+  line-height: 1.9;
+}
+
+.contact .name {
+  display: block;
+  letter-spacing: 0.04em;
+}
+
+@media (min-width: 600px) {
+  .page {
+    padding: 5.5rem 2rem 6.5rem;
+  }
+
+  .logo {
+    width: 100px;
+    margin-bottom: 3rem;
+  }
+
+  .section {
+    padding: 3.75rem 0;
+  }
+
+  .names {
+    font-size: 2.6rem;
+  }
+
+  .names .amp {
+    font-size: 3rem;
+  }
+
+  .date {
+    font-size: 1.4rem;
+  }
+
+  .quote {
+    font-size: 1.4rem;
+  }
+
+  .value {
+    font-size: 1.45rem;
+  }
+
+  .body,
+  .contact {
+    font-size: 1.15rem;
+  }
+}
