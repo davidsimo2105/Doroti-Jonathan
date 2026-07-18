@@ -1,4 +1,5 @@
 import Image from "next/image";
+import RsvpForm from "./rsvp-form";
 
 const MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=" +
@@ -29,8 +30,9 @@ export default function Home() {
 
       <section className="section">
         <p className="quote">
-          „Most azért megmarad a hit, remény, szeretet, e három; ezek között
-          pedig legnagyobb a szeretet.”
+          „Most azért megmarad a hit, remény, szeretet,
+          <br />
+          e három; ezek között pedig legnagyobb a szeretet.”
         </p>
         <p className="quoteRef">1 Korinthus 13:13</p>
       </section>
@@ -85,6 +87,13 @@ export default function Home() {
           <br />
           <a href="mailto:doroti.mink@gmail.com">doroti.mink@gmail.com</a>
         </div>
+      </section>
+
+      <div className="divider" />
+
+      <section className="section">
+        <p className="label">Visszajelzés</p>
+        <RsvpForm />
       </section>
     </main>
   );

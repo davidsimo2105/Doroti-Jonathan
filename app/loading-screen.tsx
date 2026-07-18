@@ -7,7 +7,7 @@ export default function LoadingScreen() {
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    const minDelay = new Promise((resolve) => setTimeout(resolve, 600));
+    const minDelay = new Promise((resolve) => setTimeout(resolve, 2200));
     const fontsReady =
       "fonts" in document ? document.fonts.ready : Promise.resolve();
 
