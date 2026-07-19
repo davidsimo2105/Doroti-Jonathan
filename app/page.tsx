@@ -4,7 +4,7 @@ import RsvpForm from "./rsvp-form";
 const MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=" +
   encodeURIComponent(
-    "Prónay-Kastély, Alsópetén, Kossuth Lajos utca 34, 2617"
+    "Prónay-Kastély, Alsópetény, Kossuth Lajos utca 34, 2617"
   );
 
 export default function Home() {
@@ -49,7 +49,7 @@ export default function Home() {
         <p className="value">
           Prónay-Kastély
           <br />
-          Alsópetén, Kossuth Lajos utca 34, 2617
+          Alsópetény, Kossuth Lajos utca 34, 2617
         </p>
         <a
           className="link"
