@@ -14,7 +14,7 @@ export default function RsvpForm() {
 
   const [bringingKids, setBringingKids] = useState(false);
   const [childCount, setChildCount] = useState("");
-  const [childAges, setChildAges] = useState<string[]>([]);
+  const [children, setChildren] = useState<{ name: string; age: string }[]>([]);
 
   const [notes, setNotes] = useState("");
 
@@ -47,22 +47,23 @@ export default function RsvpForm() {
     setChildCount(val);
     const count = parseInt(val, 10) || 0;
 
-    setChildAges((prev) => {
-      const newAges = [...prev];
-      if (count > newAges.length) {
-        for (let i = newAges.length; i < count; i++) newAges.push("");
-      } else if (count < newAges.length) {
-        newAges.length = count;
+    setChildren((prev) => {
+      const newChildren = [...prev];
+      if (count > newChildren.length) {
+        for (let i = newChildren.length; i < count; i++)
+          newChildren.push({ name: "", age: "" });
+      } else if (count < newChildren.length) {
+        newChildren.length = count;
       }
-      return newAges;
+      return newChildren;
     });
   }
 
-  function handleChildAgeChange(idx: number, value: string) {
-    setChildAges((prev) => {
-      const newAges = [...prev];
-      newAges[idx] = value;
-      return newAges;
+  function handleChildChange(idx: number, field: "name" | "age", value: string) {
+    setChildren((prev) => {
+      const newChildren = [...prev];
+      newChildren[idx] = { ...newChildren[idx], [field]: value };
+      return newChildren;
     });
   }
 
@@ -85,8 +86,8 @@ export default function RsvpForm() {
     const adultsList = adultNames.map((n, i) => `${i + 1}. ${n}`).join("\n");
     const kidsList =
       kidsNum > 0
-        ? childAges
-            .map((age, i) => `${i + 1}. gyermek életkora: ${age} éves`)
+        ? children
+            .map((c, i) => `${i + 1}. gyermek neve: ${c.name}, életkora: ${c.age} éves`)
             .join("\n")
         : "";
 
@@ -162,7 +163,7 @@ export default function RsvpForm() {
             setBringingKids(e.target.checked);
             if (!e.target.checked) {
               setChildCount("");
-              setChildAges([]);
+              setChildren([]);
             }
           }}
         />
@@ -188,22 +189,38 @@ export default function RsvpForm() {
       )}
 
       {bringingKids &&
-        childAges.map((age, idx) => (
-          <label key={`kid-${idx}`} className="formField">
-            <span className="label">{idx + 1}. Gyerek életkora</span>
-            <input
-              className="formInput"
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              required={bringingKids}
-              value={age}
-              onChange={(e) =>
-                handleChildAgeChange(idx, onlyDigits(e.target.value))
-              }
-              placeholder={idx === 0 ? "pl. 5" : ""}
-            />
-          </label>
+        children.map((child, idx) => (
+          <div key={`kid-${idx}`} style={{ display: "flex", flexDirection: "row", gap: "1rem", width: "100%" }}>
+            <label className="formField" style={{ flex: 1, minWidth: 0 }}>
+              <span className="label" style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                {idx + 1}. Gyerek neve
+              </span>
+              <input
+                className="formInput"
+                type="text"
+                required={bringingKids}
+                value={child.name}
+                onChange={(e) => handleChildChange(idx, "name", e.target.value)}
+                placeholder={idx === 0 ? "pl. Kis Aladár" : ""}
+                style={{ width: "100%" }}
+              />
+            </label>
+            <label className="formField" style={{ flex: "0 0 5rem" }}>
+              <span className="label" style={{ whiteSpace: "nowrap" }}>Életkora</span>
+              <input
+                className="formInput"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                required={bringingKids}
+                value={child.age}
+                onChange={(e) =>
+                  handleChildChange(idx, "age", onlyDigits(e.target.value))
+                }
+                placeholder={idx === 0 ? "pl. 5" : ""}
+              />
+            </label>
+          </div>
         ))}
 
       <label className="formField" style={{ marginTop: "1rem" }}>
