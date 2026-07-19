@@ -108,7 +108,6 @@ export default function RsvpForm() {
         <input
           className="formInput"
           type="text"
-          inputMode="numeric"
           placeholder="pl. 5, 8"
           value={childAges}
           onChange={(e) => setChildAges(onlyAgesList(e.target.value))}
