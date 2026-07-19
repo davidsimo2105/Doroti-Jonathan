@@ -8,41 +8,98 @@ function onlyDigits(value: string) {
   return value.replace(/[^0-9]/g, "");
 }
 
-function onlyAgesList(value: string) {
-  return value.replace(/[^0-9,\s]/g, "");
-}
-
 export default function RsvpForm() {
-  const [lastName, setLastName] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [guestCount, setGuestCount] = useState("");
+  const [adultCount, setAdultCount] = useState("");
+  const [adultNames, setAdultNames] = useState<string[]>([]);
+
+  const [bringingKids, setBringingKids] = useState(false);
   const [childCount, setChildCount] = useState("");
-  const [childAges, setChildAges] = useState("");
+  const [childAges, setChildAges] = useState<string[]>([]);
+
+  function handleAdultCountChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const val = onlyDigits(e.target.value);
+    setAdultCount(val);
+    const count = parseInt(val, 10) || 0;
+
+    setAdultNames((prev) => {
+      const newNames = [...prev];
+      if (count > newNames.length) {
+        for (let i = newNames.length; i < count; i++) newNames.push("");
+      } else if (count < newNames.length) {
+        newNames.length = count;
+      }
+      return newNames;
+    });
+  }
+
+  function handleAdultNameChange(idx: number, value: string) {
+    setAdultNames((prev) => {
+      const newNames = [...prev];
+      newNames[idx] = value;
+      return newNames;
+    });
+  }
+
+  function handleChildCountChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const val = onlyDigits(e.target.value);
+    setChildCount(val);
+    const count = parseInt(val, 10) || 0;
+
+    setChildAges((prev) => {
+      const newAges = [...prev];
+      if (count > newAges.length) {
+        for (let i = newAges.length; i < count; i++) newAges.push("");
+      } else if (count < newAges.length) {
+        newAges.length = count;
+      }
+      return newAges;
+    });
+  }
+
+  function handleChildAgeChange(idx: number, value: string) {
+    setChildAges((prev) => {
+      const newAges = [...prev];
+      newAges[idx] = value;
+      return newAges;
+    });
+  }
+
+  const adultCountNum = parseInt(adultCount, 10) || 0;
+  const isAdultsFilled =
+    adultCountNum > 0 &&
+    adultNames.length === adultCountNum &&
+    adultNames.every((name) => name.trim().length > 0);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const children = Number(childCount) || 0;
-    const fullName = `${firstName} ${lastName}`.trim();
-    const subjectName = `${lastName} ${firstName}`.trim();
-    const agesNote = children > 0 && childAges ? ` (${childAges} éves)` : "";
-    const childrenClause =
-      children > 0 ? `, melyből ${children} gyermek${agesNote}` : "";
+    const kidsNum = bringingKids ? parseInt(childCount, 10) || 0 : 0;
 
-    const subject = `${subjectName} - ${guestCount} fő, ${children} gyerek – Doroti & Jonatán esküvő visszajelzés`;
+    const mainName = adultNames[0] || "Vendég";
+    const subject = `${mainName} - ${adultCountNum} fő, ${kidsNum} gyerek – Doroti & Jonatán esküvő visszajelzés`;
+
+    const childrenClause = kidsNum > 0 ? `, melyből ${kidsNum} gyermek` : "";
+
+    const adultsList = adultNames.map((n, i) => `${i + 1}. ${n}`).join("\n");
+    const kidsList =
+      kidsNum > 0
+        ? childAges
+            .map((age, i) => `${i + 1}. gyermek életkora: ${age} éves`)
+            .join("\n")
+        : "";
+
     const body = [
       "Kedves Doroti és Jonatán!",
       "",
       "Ezúton szeretnénk visszaigazolni részvételünket esküvőtökön.",
-      `${fullName} néven jelentkezünk, ${guestCount} fő részvételével${childrenClause}.`,
+      `${mainName} néven jelentkezünk, ${adultCountNum} fő (felnőtt) részvételével${childrenClause}.`,
       "",
       "Köszönjük a meghívást, és izgatottan várjuk a közös ünneplést.",
       "",
       "— Összegzés —",
-      `Név: ${fullName}`,
-      `Létszám: ${guestCount} fő`,
-      `Ebből gyermek: ${children} fő`,
-      ...(children > 0 && childAges ? [`Gyerekek életkora: ${childAges}`] : []),
+      `Felnőtt vendégek (${adultCountNum} fő):`,
+      adultsList,
+      ...(kidsNum > 0 ? ["", `Gyerekek (${kidsNum} fő):`, kidsList] : []),
     ].join("\n");
 
     const mailto = `mailto:${RSVP_EMAIL}?subject=${encodeURIComponent(
@@ -54,67 +111,99 @@ export default function RsvpForm() {
 
   return (
     <form className="rsvpForm" onSubmit={handleSubmit}>
-      <div className="formRow">
-        <label className="formField">
-          <span className="label">Családnév</span>
-          <input
-            className="formInput"
-            type="text"
-            required
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-        </label>
-        <label className="formField">
-          <span className="label">Keresztnév</span>
-          <input
-            className="formInput"
-            type="text"
-            required
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-        </label>
-      </div>
-
-      <div className="formRow">
-        <label className="formField">
-          <span className="label">Létszám</span>
-          <input
-            className="formInput"
-            type="text"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            required
-            value={guestCount}
-            onChange={(e) => setGuestCount(onlyDigits(e.target.value))}
-          />
-        </label>
-        <label className="formField">
-          <span className="label">Gyerekek</span>
-          <input
-            className="formInput"
-            type="text"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            value={childCount}
-            onChange={(e) => setChildCount(onlyDigits(e.target.value))}
-          />
-        </label>
-      </div>
-
       <label className="formField">
-        <span className="label">Gyerekek életkora</span>
+        <span className="label">Felnőttek létszáma</span>
         <input
           className="formInput"
           type="text"
-          placeholder="pl. 5, 8"
-          value={childAges}
-          onChange={(e) => setChildAges(onlyAgesList(e.target.value))}
+          inputMode="numeric"
+          pattern="[0-9]*"
+          required
+          value={adultCount}
+          onChange={handleAdultCountChange}
+          placeholder="pl. 2"
         />
       </label>
 
-      <button className="submitButton" type="submit">
+      {adultNames.map((name, idx) => (
+        <label key={`adult-${idx}`} className="formField">
+          <span className="label">{idx + 1}. Felnőtt neve</span>
+          <input
+            className="formInput"
+            type="text"
+            required
+            value={name}
+            onChange={(e) => handleAdultNameChange(idx, e.target.value)}
+            placeholder={idx === 0 ? "pl. Kiss Péter" : ""}
+          />
+        </label>
+      ))}
+
+      <label
+        className="formField"
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          gap: "0.75rem",
+          marginTop: "1rem",
+          cursor: isAdultsFilled ? "pointer" : "not-allowed",
+          opacity: isAdultsFilled ? 1 : 0.5,
+        }}
+      >
+        <input
+          type="checkbox"
+          className="customCheckbox"
+          checked={bringingKids}
+          disabled={!isAdultsFilled}
+          onChange={(e) => {
+            setBringingKids(e.target.checked);
+            if (!e.target.checked) {
+              setChildCount("");
+              setChildAges([]);
+            }
+          }}
+        />
+        <span className="label" style={{ marginBottom: 0, marginTop: "2px" }}>
+          Gyerekekkel érkezünk
+        </span>
+      </label>
+
+      {bringingKids && (
+        <label className="formField">
+          <span className="label">Gyerekek létszáma</span>
+          <input
+            className="formInput"
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            required={bringingKids}
+            value={childCount}
+            onChange={handleChildCountChange}
+            placeholder="pl. 1"
+          />
+        </label>
+      )}
+
+      {bringingKids &&
+        childAges.map((age, idx) => (
+          <label key={`kid-${idx}`} className="formField">
+            <span className="label">{idx + 1}. Gyerek életkora</span>
+            <input
+              className="formInput"
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              required={bringingKids}
+              value={age}
+              onChange={(e) =>
+                handleChildAgeChange(idx, onlyDigits(e.target.value))
+              }
+              placeholder={idx === 0 ? "pl. 5" : ""}
+            />
+          </label>
+        ))}
+
+      <button className="submitButton" type="submit" style={{ marginTop: "1rem" }}>
         Visszajelzés küldése
       </button>
     </form>
