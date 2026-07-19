@@ -16,6 +16,8 @@ export default function RsvpForm() {
   const [childCount, setChildCount] = useState("");
   const [childAges, setChildAges] = useState<string[]>([]);
 
+  const [notes, setNotes] = useState("");
+
   function handleAdultCountChange(e: React.ChangeEvent<HTMLInputElement>) {
     const val = onlyDigits(e.target.value);
     setAdultCount(val);
@@ -76,7 +78,7 @@ export default function RsvpForm() {
     const kidsNum = bringingKids ? parseInt(childCount, 10) || 0 : 0;
 
     const mainName = adultNames[0] || "Vendég";
-    const subject = `${mainName} - ${adultCountNum} fő, ${kidsNum} gyerek – Doroti & Jonatán esküvő visszajelzés`;
+    const subject = `${mainName} - ${adultCountNum} felnőtt, ${kidsNum} gyerek – Doroti & Jonatán esküvő visszajelzés`;
 
     const childrenClause = kidsNum > 0 ? `, melyből ${kidsNum} gyermek` : "";
 
@@ -100,6 +102,7 @@ export default function RsvpForm() {
       `Felnőtt vendégek (${adultCountNum} fő):`,
       adultsList,
       ...(kidsNum > 0 ? ["", `Gyerekek (${kidsNum} fő):`, kidsList] : []),
+      ...(notes.trim() ? ["", `Megjegyzés (pl. ételérzékenység):`, notes.trim()] : []),
     ].join("\n");
 
     const mailto = `mailto:${RSVP_EMAIL}?subject=${encodeURIComponent(
@@ -203,7 +206,18 @@ export default function RsvpForm() {
           </label>
         ))}
 
-      <button className="submitButton" type="submit" style={{ marginTop: "1rem" }}>
+      <label className="formField" style={{ marginTop: "1rem" }}>
+        <span className="label">Megjegyzés, ételérzékenység</span>
+        <input
+          className="formInput"
+          type="text"
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          placeholder="pl. laktózérzékenység, vegán..."
+        />
+      </label>
+
+      <button className="submitButton" type="submit" style={{ marginTop: "1.5rem" }}>
         Visszajelzés küldése
       </button>
     </form>
