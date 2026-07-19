@@ -76,12 +76,6 @@ export default function Home() {
           <br />
           kérjük, ezt a visszajelzésben <strong>külön jelezzétek</strong>.
         </p>
-
-        <div className="contact">
-          <p className="label">Kapcsolattartó</p>
-          <span className="name">Mink Doroti</span>
-          <a href="tel:+36303293832">+36 30 329 3832</a>
-        </div>
       </section>
 
       <div className="divider" />
@@ -95,6 +89,16 @@ export default function Home() {
       <section className="section">
         <p className="label">Dresscode</p>
         <p className="value">Sötét földszínek</p>
+      </section>
+
+      <div className="divider" />
+
+      <section className="section">
+        <div className="contact" style={{ marginTop: 0 }}>
+          <p className="label">Kapcsolattartó</p>
+          <span className="name">Mink Doroti</span>
+          <a href="tel:+36303293832">+36 30 329 3832</a>
+        </div>
       </section>
     </main>
   );
