@@ -77,11 +77,16 @@ export default function RsvpForm() {
     event.preventDefault();
 
     const kidsNum = bringingKids ? parseInt(childCount, 10) || 0 : 0;
+    const totalCount = adultCountNum + kidsNum;
+    const isSingular = totalCount === 1;
 
     const mainName = adultNames[0] || "Vendég";
     const subject = `${mainName} - ${adultCountNum} felnőtt, ${kidsNum} gyerek – Doroti & Jonatán esküvő visszajelzés`;
 
-    const childrenClause = kidsNum > 0 ? `, melyből ${kidsNum} gyermek` : "";
+    const participantsText =
+      kidsNum > 0
+        ? `${adultCountNum} felnőtt és ${kidsNum} gyermek`
+        : `${adultCountNum} felnőtt`;
 
     const adultsList = adultNames.map((n, i) => `${i + 1}. ${n}`).join("\n");
     const kidsList =
@@ -91,13 +96,25 @@ export default function RsvpForm() {
             .join("\n")
         : "";
 
+    const introLine = isSingular
+      ? "Ezúton szeretném visszaigazolni részvételemet esküvőtökön."
+      : "Ezúton szeretnénk visszaigazolni részvételünket esküvőtökön.";
+
+    const mainLine = isSingular
+      ? `${mainName} néven jelentkezem, ${participantsText} részvételével.`
+      : `${mainName} néven jelentkezünk, ${participantsText} részvételével.`;
+
+    const outroLine = isSingular
+      ? "Köszönöm a meghívást, és izgatottan várom a közös ünneplést."
+      : "Köszönjük a meghívást, és izgatottan várjuk a közös ünneplést.";
+
     const body = [
       "Kedves Doroti és Jonatán!",
       "",
-      "Ezúton szeretnénk visszaigazolni részvételünket esküvőtökön.",
-      `${mainName} néven jelentkezünk, ${adultCountNum} fő (felnőtt) részvételével${childrenClause}.`,
+      introLine,
+      mainLine,
       "",
-      "Köszönjük a meghívást, és izgatottan várjuk a közös ünneplést.",
+      outroLine,
       "",
       "— Összegzés —",
       `Felnőtt vendégek (${adultCountNum} fő):`,
