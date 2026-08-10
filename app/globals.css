@@ -90,6 +90,7 @@ a {
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  cursor: pointer;
 }
 
 .envelopeImg {
@@ -98,6 +99,49 @@ a {
   height: auto;
   object-fit: contain;
   opacity: 0.95;
+  cursor: pointer;
+  animation: envelopePulse 2.6s ease-in-out infinite;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.envelopeImg:hover {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+@keyframes envelopePulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+}
+
+.heroSection.fading {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+.invitationContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeInContent 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes fadeInContent {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .logo {
