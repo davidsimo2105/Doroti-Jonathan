@@ -1,16 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Prata, Great_Vibes } from "next/font/google";
+import { Cardo, Pinyon_Script } from "next/font/google";
 import LoadingScreen from "./loading-screen";
 import "./globals.css";
 
-const serif = Prata({
+const serif = Cardo({
   variable: "--font-serif",
   subsets: ["latin"],
-  weight: "400",
-  style: ["normal"],
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
 });
 
-const script = Great_Vibes({
+const script = Pinyon_Script({
   variable: "--font-script",
   subsets: ["latin"],
   weight: "400",
