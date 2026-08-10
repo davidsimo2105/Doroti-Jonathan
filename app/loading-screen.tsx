@@ -19,7 +19,7 @@ export default function LoadingScreen() {
       className={`loadingScreen${hidden ? " hidden" : ""}`}
       aria-hidden={hidden}
     >
-      <Image src="/images/logo.png" alt="" width={1040} height={1459} priority />
+      <Image src="/images/embossed_logo.png" alt="" width={1040} height={1459} priority />
     </div>
   );
 }

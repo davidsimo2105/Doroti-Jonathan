@@ -42,7 +42,7 @@ export default function Home() {
         <div className="invitationContent">
           <Image
             className="logo"
-            src="/images/logo.png"
+            src="/images/embossed_logo.png"
             alt="Doroti & Jonatán"
             width={1040}
             height={1459}
@@ -51,14 +51,11 @@ export default function Home() {
 
           <section className="section">
             <h1 className="names">
-              Doroti <span className="amp">&amp;</span>
-              <br />
-              Jonatán
+              Doroti <span className="amp">&amp;</span> Jonatán
             </h1>
-            <p className="date">2026. 10. 11.</p>
           </section>
 
-          <section className="section">
+          <section className="section infoSection">
             <p className="label">Dátum</p>
             <p className="value">2026. 10. 11.</p>
 
@@ -79,28 +76,8 @@ export default function Home() {
 
             <p className="label detailGap">Vendégvárás</p>
             <p className="value">14:00</p>
-          </section>
 
-          <section className="section">
-            <RsvpForm />
-          </section>
-
-          <div className="divider" />
-
-          <section className="section">
-            <p className="body">
-              Kérünk benneteket, hogy részvételi
-              <br />
-              szándékotokat <strong>2026. szeptember 10-ig bezárólag</strong>
-              <br />
-              jelezzétek számunkra.
-            </p>
-          </section>
-
-          <div className="divider" />
-
-          <section className="section">
-            <p className="label">Dresscode</p>
+            <p className="label detailGap">Dresscode</p>
             <p className="value">Sötét földszínek</p>
             <div className="colorPalette">
               <div className="colorRow">
@@ -117,29 +94,38 @@ export default function Home() {
             </div>
           </section>
 
-          <div className="divider" />
-
           <section className="section">
-            <div className="contact" style={{ marginTop: 0 }}>
-              <p className="label">Kapcsolattartó</p>
-              <span className="name">Mink Doroti</span>
-              <a href="tel:+36303293832">+36 30 329 3832</a>
-            </div>
+            <RsvpForm />
           </section>
 
-          <div className="divider" />
+          <section className="section">
+            <p className="body">
+              Kérünk benneteket, hogy részvételi
+              <br />
+              szándékotokat <strong>2026. szeptember 10-ig bezárólag</strong>
+              <br />
+              jelezzétek számunkra.
+            </p>
+          </section>
 
           <section className="section quoteSection">
             <p className="quote">
-              „<span className="quoteInitial">M</span>OST AZÉRT MEGMARAD
+              „<span className="quoteInitial">M</span>OST AZÉRT MEGMARAD A HIT,
               <br />
-              A HIT, REMÉNY, SZERETET,
+              REMÉNY, SZERETET, E HÁROM;
               <br />
-              E HÁROM; EZEK KÖZÖTT PEDIG
+              EZEK KÖZÖTT PEDIG LEGNAGYOBB A
               <br />
-              LEGNAGYOBB A SZERETET.”
+              SZERETET.”
             </p>
             <p className="quoteRef">1 Korinthus 13:13</p>
+            <Image
+              className="logoBottom"
+              src="/images/embossed_logo.png"
+              alt="Doroti & Jonatán"
+              width={1040}
+              height={1459}
+            />
           </section>
         </div>
       )}
