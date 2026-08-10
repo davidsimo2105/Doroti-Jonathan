@@ -173,12 +173,16 @@ a {
 }
 
 .section:first-of-type {
-  padding-top: 0;
-  padding-bottom: 1.25rem;
+  padding-top: 7rem;
+  padding-bottom: 3.5rem;
 }
 
 .section.infoSection {
-  padding-top: 1.25rem;
+  padding-top: 3.5rem;
+}
+
+.section.rsvpSection {
+  padding-top: 8.5rem;
 }
 
 .names {

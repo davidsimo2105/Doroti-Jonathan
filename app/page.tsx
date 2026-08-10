@@ -40,15 +40,6 @@ export default function Home() {
         </section>
       ) : (
         <div className="invitationContent">
-          <Image
-            className="logo"
-            src="/images/embossed_logo.png"
-            alt="Doroti & Jonatán"
-            width={1040}
-            height={1459}
-            priority
-          />
-
           <section className="section">
             <h1 className="names">
               Doroti <span className="amp">&amp;</span> Jonatán
@@ -94,7 +85,7 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="section">
+          <section className="section rsvpSection">
             <RsvpForm />
           </section>
 
