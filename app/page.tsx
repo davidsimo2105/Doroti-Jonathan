@@ -91,7 +91,7 @@ export default function Home() {
             <p className="body">
               Kérünk benneteket, hogy részvételi
               <br />
-              szándékotokat <strong>2026. augusztus 24-ig bezárólag</strong>
+              szándékotokat <strong>2026. szeptember 10-ig bezárólag</strong>
               <br />
               jelezzétek számunkra.
             </p>
