@@ -156,7 +156,7 @@ a {
   width: 44px;
   height: auto;
   position: absolute;
-  bottom: 10.2rem;
+  bottom: 6.2rem;
   left: 50%;
   transform: translateX(-50%);
   opacity: 0.92;
@@ -173,7 +173,7 @@ a {
 }
 
 .section:first-of-type {
-  padding-top: 10.2rem;
+  padding-top: 6.2rem;
   padding-bottom: 3.5rem;
 }
 
@@ -311,10 +311,17 @@ a {
 }
 
 .colorCircle {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: 1px solid rgba(178, 203, 175, 0.3);
+}
+
+.dresscodeNote {
+  margin-top: 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  opacity: 0.9;
 }
 
 .contact {

@@ -83,6 +83,11 @@ export default function Home() {
                 <span className="colorCircle" style={{ backgroundColor: "#141d1a" }} />
               </div>
             </div>
+            <p className="dresscodeNote">
+              Férfiaknak a sötét földszínek mellett
+              <br />
+              a fehér ing is megengedett.
+            </p>
           </section>
 
           <section className="section rsvpSection">
