@@ -72,15 +72,14 @@ export default function Home() {
             <p className="value">Sötét földszínek</p>
             <div className="colorPalette">
               <div className="colorRow">
-                <span className="colorCircle" style={{ backgroundColor: "#544538" }} />
                 <span className="colorCircle" style={{ backgroundColor: "#101517" }} />
-                <span className="colorCircle" style={{ backgroundColor: "#3d3f33" }} />
+                <span className="colorCircle" style={{ backgroundColor: "#2a2c20" }} />
                 <span className="colorCircle" style={{ backgroundColor: "#202423" }} />
               </div>
               <div className="colorRow">
                 <span className="colorCircle" style={{ backgroundColor: "#2c221b" }} />
-                <span className="colorCircle" style={{ backgroundColor: "#1f1f17" }} />
-                <span className="colorCircle" style={{ backgroundColor: "#2a2c20" }} />
+                <span className="colorCircle" style={{ backgroundColor: "#3a3228" }} />
+                <span className="colorCircle" style={{ backgroundColor: "#262523" }} />
               </div>
             </div>
             <p className="dresscodeNote">
