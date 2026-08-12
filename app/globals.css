@@ -321,10 +321,10 @@ a {
 }
 
 .colorCircle {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  border: 1px solid rgba(178, 203, 175, 0.3);
+  border: 1.5px solid rgba(178, 203, 175, 0.3);
 }
 
 .dresscodeNote {
