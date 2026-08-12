@@ -73,7 +73,7 @@ export default function Home() {
             <div className="colorPalette">
               <div className="colorRow">
                 <span className="colorCircle" style={{ backgroundColor: "#221d13" }} />
-                <span className="colorCircle" style={{ backgroundColor: "#160e0f" }} />
+                <span className="colorCircle" style={{ backgroundColor: "#141d1a" }} />
                 <span className="colorCircle" style={{ backgroundColor: "#1d1d1d" }} />
               </div>
               <div className="colorRow">
