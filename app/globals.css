@@ -463,13 +463,16 @@ a {
   }
 
   .page {
-    padding: 5.5rem 2.5rem 6.5rem;
+    padding: 0 2.5rem;
   }
 
-  .logo,
-  .logoBottom {
+  .logo {
     width: 52px;
     margin-bottom: 3rem;
+  }
+
+  .logoBottom {
+    width: 52px;
   }
 
   .section {
