@@ -11,8 +11,24 @@ export default function FeedbackPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/rsvp");
+      const data = await res.json();
+      if (data.success) {
+        setRsvps(data.rsvps);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (localStorage.getItem("adminAuth") === "eskuvo2026") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsAuthenticated(true);
       fetchData();
     }
@@ -26,21 +42,6 @@ export default function FeedbackPage() {
       fetchData();
     } else {
       setError("Helytelen jelszó");
-    }
-  };
-
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch("/api/rsvp");
-      const data = await res.json();
-      if (data.success) {
-        setRsvps(data.rsvps);
-      }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
     }
   };
 

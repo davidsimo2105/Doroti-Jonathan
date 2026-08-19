@@ -99,15 +99,15 @@ export default function RsvpForm() {
         `Név: ${declinerName || "Vendég"}`
       ].join("\n");
 
-      // Save to DB
-      await fetch('/api/rsvp', {
+      // Save to DB (fire and forget so it never blocks the UI)
+      fetch('/api/rsvp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           attendance: "declining",
           declinerName
         })
-      });
+      }).catch(console.error);
 
       setIsSubmitted(true);
       const mailto = `mailto:${RSVP_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -162,8 +162,8 @@ export default function RsvpForm() {
       ...(notes.trim() ? ["", `Megjegyzés (pl. ételérzékenység):`, notes.trim()] : []),
     ].join("\n");
 
-    // Save to DB
-    await fetch('/api/rsvp', {
+    // Save to DB (fire and forget so it never blocks the UI)
+    fetch('/api/rsvp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -174,7 +174,7 @@ export default function RsvpForm() {
         children: bringingKids ? children : [],
         notes
       })
-    });
+    }).catch(console.error);
 
     setIsSubmitted(true);
     const mailto = `mailto:${RSVP_EMAIL}?subject=${encodeURIComponent(
