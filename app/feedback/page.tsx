@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import type { RSVP } from "@/lib/db";
+import { type RSVP, getRSVPs, deleteRSVP } from "@/lib/db";
 import "../globals.css";
 
 export default function FeedbackPage() {
@@ -14,11 +14,8 @@ export default function FeedbackPage() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/rsvp");
-      const data = await res.json();
-      if (data.success) {
-        setRsvps(data.rsvps);
-      }
+      const data = await getRSVPs();
+      setRsvps(data);
     } catch (err) {
       console.error(err);
     } finally {
@@ -48,16 +45,8 @@ export default function FeedbackPage() {
   const handleDelete = async (id: string) => {
     if (!window.confirm("Biztosan törölni szeretnéd ezt a jelentkezést?")) return;
     try {
-      const res = await fetch("/api/rsvp", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id })
-      });
-      if (res.ok) {
-        setRsvps(prev => prev.filter(r => r.id !== id));
-      } else {
-        alert("Hiba történt a törlés során.");
-      }
+      await deleteRSVP(id);
+      setRsvps(prev => prev.filter(r => r.id !== id));
     } catch (e) {
       console.error("Törlési hiba:", e);
       alert("Hálózati hiba történt a törlés során.");

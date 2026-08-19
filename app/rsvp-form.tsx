@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { saveRSVP } from "@/lib/db";
 
 const RSVP_EMAIL = "vidadoroti@gmail.com,vidajonatan777@gmail.com";
 
@@ -99,14 +100,10 @@ export default function RsvpForm() {
         `Név: ${declinerName || "Vendég"}`
       ].join("\n");
 
-      // Save to DB (fire and forget so it never blocks the UI)
-      fetch('/api/rsvp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          attendance: "declining",
-          declinerName
-        })
+      // Save to DB directly from the browser
+      saveRSVP({
+        attendance: "declining",
+        declinerName
       }).catch(console.error);
 
       setIsSubmitted(true);
@@ -162,18 +159,14 @@ export default function RsvpForm() {
       ...(notes.trim() ? ["", `Megjegyzés (pl. ételérzékenység):`, notes.trim()] : []),
     ].join("\n");
 
-    // Save to DB (fire and forget so it never blocks the UI)
-    fetch('/api/rsvp', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        attendance: "attending",
-        adultCount: adultCountNum,
-        adultNames,
-        bringingKids,
-        children: bringingKids ? children : [],
-        notes
-      })
+    // Save to DB directly from the browser
+    saveRSVP({
+      attendance: "attending",
+      adultCount: adultCountNum,
+      adultNames,
+      bringingKids,
+      children: bringingKids ? children : [],
+      notes
     }).catch(console.error);
 
     setIsSubmitted(true);
