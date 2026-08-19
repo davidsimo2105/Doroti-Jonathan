@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getFirestore, collection, addDoc, getDocs, orderBy, query } from "firebase/firestore";
 
 export interface RSVP {
   id: string;
@@ -13,28 +13,37 @@ export interface RSVP {
   notes?: string;
 }
 
-const DB_PATH = path.join(process.cwd(), 'rsvps.json');
+const firebaseConfig = {
+  apiKey: "AIzaSyBlt45m-ILw9MmosQ6eynbJ2xoJqM-3jKY",
+  authDomain: "doroti-es-jonatan.firebaseapp.com",
+  projectId: "doroti-es-jonatan",
+  storageBucket: "doroti-es-jonatan.firebasestorage.app",
+  messagingSenderId: "352300789459",
+  appId: "1:352300789459:web:ddbe9edf89434176dfae26",
+  measurementId: "G-8H714G7RRM"
+};
 
-export function getRSVPs(): RSVP[] {
+// Initialize Firebase once
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+const db = getFirestore(app);
+
+export async function getRSVPs(): Promise<RSVP[]> {
   try {
-    if (!fs.existsSync(DB_PATH)) {
-      return [];
-    }
-    const data = fs.readFileSync(DB_PATH, 'utf-8');
-    return JSON.parse(data) as RSVP[];
+    const rsvpsRef = collection(db, "rsvps");
+    const q = query(rsvpsRef, orderBy("createdAt", "desc"));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as RSVP));
   } catch (error) {
-    console.error("Error reading RSVPs:", error);
+    console.error("Error reading RSVPs from Firestore:", error);
     return [];
   }
 }
 
-export function saveRSVP(rsvp: Omit<RSVP, 'id' | 'createdAt'>): void {
-  const current = getRSVPs();
-  const newRSVP: RSVP = {
+export async function saveRSVP(rsvp: Omit<RSVP, 'id' | 'createdAt'>): Promise<void> {
+  const rsvpsRef = collection(db, "rsvps");
+  const newRSVP = {
     ...rsvp,
-    id: crypto.randomUUID(),
     createdAt: new Date().toISOString()
   };
-  current.push(newRSVP);
-  fs.writeFileSync(DB_PATH, JSON.stringify(current, null, 2));
+  await addDoc(rsvpsRef, newRSVP);
 }

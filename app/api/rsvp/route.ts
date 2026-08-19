@@ -4,7 +4,7 @@ import { saveRSVP, getRSVPs } from '@/lib/db';
 export async function POST(request: Request) {
   try {
     const data = await request.json();
-    saveRSVP(data);
+    await saveRSVP(data);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Failed to save RSVP", error);
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
 
 export async function GET() {
   try {
-    const rsvps = getRSVPs();
+    const rsvps = await getRSVPs();
     return NextResponse.json({ success: true, rsvps });
   } catch (error) {
     console.error("Failed to read RSVPs", error);
