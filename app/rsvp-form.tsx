@@ -9,6 +9,9 @@ function onlyDigits(value: string) {
 }
 
 export default function RsvpForm() {
+  const [attendance, setAttendance] = useState<"attending" | "declining" | "">("");
+  const [declinerName, setDeclinerName] = useState("");
+
   const [adultCount, setAdultCount] = useState("");
   const [adultNames, setAdultNames] = useState<string[]>([]);
 
@@ -73,8 +76,31 @@ export default function RsvpForm() {
     adultNames.length === adultCountNum &&
     adultNames.every((name) => name.trim().length > 0);
 
+  const canSubmit = 
+    attendance === "declining" 
+      ? declinerName.trim().length > 0 
+      : (attendance === "attending" && isAdultsFilled);
+
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (attendance === "declining") {
+      const subject = `${declinerName || "Vendég"} - Nem tud részt venni – Doroti & Jonatán esküvő visszajelzés`;
+      const body = [
+        "Kedves Doroti és Jonatán!",
+        "",
+        `Ezúton szeretném jelezni, hogy én/mi (${declinerName || "Vendég"}) sajnos nem tudok/tudunk részt venni az esküvőtökön.`,
+        "",
+        "Sok boldogságot kívánok/kívánunk!",
+        "",
+        "— Összegzés —",
+        `Részvétel: Nem tud részt venni`,
+        `Név: ${declinerName || "Vendég"}`
+      ].join("\n");
+      const mailto = `mailto:${RSVP_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
+      return;
+    }
 
     const kidsNum = bringingKids ? parseInt(childCount, 10) || 0 : 0;
     const totalCount = adultCountNum + kidsNum;
@@ -132,126 +158,174 @@ export default function RsvpForm() {
 
   return (
     <form className="rsvpForm" onSubmit={handleSubmit}>
-      <label className="formField">
-        <span className="label">Felnőttek létszáma</span>
-        <input
-          className="formInput"
-          type="text"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          required
-          value={adultCount}
-          onChange={handleAdultCountChange}
-          placeholder="pl. 2"
-        />
-      </label>
-
-      {adultNames.map((name, idx) => (
-        <label key={`adult-${idx}`} className="formField">
-          <span className="label">{idx + 1}. Felnőtt neve</span>
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginBottom: "2rem" }}>
+        <label className="formField" style={{ flexDirection: "row", alignItems: "center", gap: "0.75rem", cursor: "pointer" }}>
           <input
-            className="formInput"
-            type="text"
-            required
-            value={name}
-            onChange={(e) => handleAdultNameChange(idx, e.target.value)}
-            placeholder={idx === 0 ? "pl. Kiss Péter" : ""}
+            type="checkbox"
+            className="customCheckbox"
+            checked={attendance === "attending"}
+            onChange={(e) => setAttendance(e.target.checked ? "attending" : "")}
           />
+          <span className="label" style={{ marginBottom: 0, marginTop: "2px" }}>Részt veszek</span>
         </label>
-      ))}
+        <label className="formField" style={{ flexDirection: "row", alignItems: "center", gap: "0.75rem", cursor: "pointer" }}>
+          <input
+            type="checkbox"
+            className="customCheckbox"
+            checked={attendance === "declining"}
+            onChange={(e) => setAttendance(e.target.checked ? "declining" : "")}
+          />
+          <span className="label" style={{ marginBottom: 0, marginTop: "2px" }}>Nem tudok részt venni</span>
+        </label>
+      </div>
 
-      <label
-        className="formField"
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          gap: "0.75rem",
-          marginTop: "1rem",
-          cursor: isAdultsFilled ? "pointer" : "not-allowed",
-          opacity: isAdultsFilled ? 1 : 0.5,
-        }}
-      >
-        <input
-          type="checkbox"
-          className="customCheckbox"
-          checked={bringingKids}
-          disabled={!isAdultsFilled}
-          onChange={(e) => {
-            setBringingKids(e.target.checked);
-            if (!e.target.checked) {
-              setChildCount("");
-              setChildren([]);
-            }
-          }}
-        />
-        <span className="label" style={{ marginBottom: 0, marginTop: "2px" }}>
-          Gyerekekkel érkezünk
-        </span>
-      </label>
-
-      {bringingKids && (
-        <label className="formField">
-          <span className="label">Gyerekek létszáma</span>
+      {attendance === "declining" && (
+        <label className="formField" style={{ marginBottom: "1rem" }}>
+          <span className="label">Neved / Neveitek</span>
           <input
             className="formInput"
             type="text"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            required={bringingKids}
-            value={childCount}
-            onChange={handleChildCountChange}
-            placeholder="pl. 1"
+            required={attendance === "declining"}
+            value={declinerName}
+            onChange={(e) => setDeclinerName(e.target.value)}
+            placeholder="pl. Kiss Péter és családja"
           />
         </label>
       )}
 
-      {bringingKids &&
-        children.map((child, idx) => (
-          <div key={`kid-${idx}`} style={{ display: "flex", flexDirection: "row", gap: "1rem", width: "100%" }}>
-            <label className="formField" style={{ flex: 1, minWidth: 0 }}>
-              <span className="label" style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                {idx + 1}. Gyerek neve
-              </span>
+      {attendance === "attending" && (
+        <>
+          <label className="formField">
+            <span className="label">Felnőttek létszáma</span>
+            <input
+              className="formInput"
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              required={attendance === "attending"}
+              value={adultCount}
+              onChange={handleAdultCountChange}
+              placeholder="pl. 2"
+            />
+          </label>
+
+          {adultNames.map((name, idx) => (
+            <label key={`adult-${idx}`} className="formField">
+              <span className="label">{idx + 1}. Felnőtt neve</span>
               <input
                 className="formInput"
                 type="text"
-                required={bringingKids}
-                value={child.name}
-                onChange={(e) => handleChildChange(idx, "name", e.target.value)}
-                placeholder={idx === 0 ? "pl. Kis Aladár" : ""}
-                style={{ width: "100%" }}
+                required={attendance === "attending"}
+                value={name}
+                onChange={(e) => handleAdultNameChange(idx, e.target.value)}
+                placeholder={idx === 0 ? "pl. Kiss Péter" : ""}
               />
             </label>
-            <label className="formField" style={{ flex: "0 0 5rem" }}>
-              <span className="label" style={{ whiteSpace: "nowrap" }}>Életkora</span>
+          ))}
+
+          <label
+            className="formField"
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: "0.75rem",
+              marginTop: "1rem",
+              cursor: isAdultsFilled ? "pointer" : "not-allowed",
+              opacity: isAdultsFilled ? 1 : 0.5,
+            }}
+          >
+            <input
+              type="checkbox"
+              className="customCheckbox"
+              checked={bringingKids}
+              disabled={!isAdultsFilled}
+              onChange={(e) => {
+                setBringingKids(e.target.checked);
+                if (!e.target.checked) {
+                  setChildCount("");
+                  setChildren([]);
+                }
+              }}
+            />
+            <span className="label" style={{ marginBottom: 0, marginTop: "2px" }}>
+              Gyerekekkel érkezünk
+            </span>
+          </label>
+
+          {bringingKids && (
+            <label className="formField">
+              <span className="label">Gyerekek létszáma</span>
               <input
                 className="formInput"
                 type="text"
                 inputMode="numeric"
                 pattern="[0-9]*"
                 required={bringingKids}
-                value={child.age}
-                onChange={(e) =>
-                  handleChildChange(idx, "age", onlyDigits(e.target.value))
-                }
-                placeholder={idx === 0 ? "pl. 5" : ""}
+                value={childCount}
+                onChange={handleChildCountChange}
+                placeholder="pl. 1"
               />
             </label>
-          </div>
-        ))}
+          )}
 
-      <label className="formField" style={{ marginTop: "1rem" }}>
-        <span className="label">Megjegyzés, ételérzékenység</span>
-        <input
-          className="formInput"
-          type="text"
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          placeholder="pl. laktózérzékenység, vegán..."
-        />
-      </label>
+          {bringingKids &&
+            children.map((child, idx) => (
+              <div key={`kid-${idx}`} style={{ display: "flex", flexDirection: "row", gap: "1rem", width: "100%" }}>
+                <label className="formField" style={{ flex: 1, minWidth: 0 }}>
+                  <span className="label" style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                    {idx + 1}. Gyerek neve
+                  </span>
+                  <input
+                    className="formInput"
+                    type="text"
+                    required={bringingKids}
+                    value={child.name}
+                    onChange={(e) => handleChildChange(idx, "name", e.target.value)}
+                    placeholder={idx === 0 ? "pl. Kis Aladár" : ""}
+                    style={{ width: "100%" }}
+                  />
+                </label>
+                <label className="formField" style={{ flex: "0 0 5rem" }}>
+                  <span className="label" style={{ whiteSpace: "nowrap" }}>Életkora</span>
+                  <input
+                    className="formInput"
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    required={bringingKids}
+                    value={child.age}
+                    onChange={(e) =>
+                      handleChildChange(idx, "age", onlyDigits(e.target.value))
+                    }
+                    placeholder={idx === 0 ? "pl. 5" : ""}
+                  />
+                </label>
+              </div>
+            ))}
 
-      <button className="submitButton" type="submit" style={{ marginTop: "1.5rem" }}>
+          <label className="formField" style={{ marginTop: "1rem" }}>
+            <span className="label">Megjegyzés, ételérzékenység</span>
+            <input
+              className="formInput"
+              type="text"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="pl. laktózérzékenység, vegán..."
+            />
+          </label>
+        </>
+      )}
+
+      <button
+        className="submitButton"
+        type="submit"
+        style={{
+          marginTop: "1.5rem",
+          opacity: canSubmit ? 1 : 0.5,
+          cursor: canSubmit ? "pointer" : "not-allowed"
+        }}
+        disabled={!canSubmit}
+      >
         Visszajelzés küldése
       </button>
     </form>
