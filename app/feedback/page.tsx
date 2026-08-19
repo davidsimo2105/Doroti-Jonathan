@@ -55,7 +55,7 @@ export default function FeedbackPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="page" style={{ justifyContent: "center", minHeight: "100vh" }}>
+      <div style={{ position: "fixed", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "var(--background)", overflow: "hidden", padding: "1rem" }}>
         <div style={{ padding: "2rem", backgroundColor: "var(--foreground)", color: "var(--background)", borderRadius: "1rem", width: "100%", maxWidth: "400px", textAlign: "center" }}>
           <h1 style={{ marginBottom: "2rem", fontSize: "1.5rem" }}>Admin Bejelentkezés</h1>
           <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
@@ -70,7 +70,8 @@ export default function FeedbackPage() {
                 border: "1px solid var(--background)",
                 backgroundColor: "transparent",
                 color: "var(--background)",
-                outline: "none"
+                outline: "none",
+                fontFamily: "inherit"
               }}
             />
             {error && <p style={{ color: "#d9534f", fontSize: "0.9rem", margin: 0 }}>{error}</p>}
@@ -84,7 +85,10 @@ export default function FeedbackPage() {
                 border: "none",
                 cursor: "pointer",
                 fontWeight: "bold",
-                marginTop: "1rem"
+                marginTop: "1rem",
+                fontFamily: "inherit",
+                letterSpacing: "0.08em",
+                textTransform: "uppercase"
               }}
             >
               Belépés
