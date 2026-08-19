@@ -71,7 +71,8 @@ export default function FeedbackPage() {
                 backgroundColor: "transparent",
                 color: "var(--background)",
                 outline: "none",
-                fontFamily: "inherit"
+                fontFamily: "inherit",
+                fontSize: "16px"
               }}
             />
             {error && <p style={{ color: "#d9534f", fontSize: "0.9rem", margin: 0 }}>{error}</p>}
