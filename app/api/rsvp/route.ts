@@ -21,3 +21,17 @@ export async function GET() {
     return NextResponse.json({ success: false, error: "Failed to read RSVPs" }, { status: 500 });
   }
 }
+
+import { deleteRSVP } from '@/lib/db';
+
+export async function DELETE(request: Request) {
+  try {
+    const { id } = await request.json();
+    if (!id) return NextResponse.json({ success: false, error: "No ID provided" }, { status: 400 });
+    await deleteRSVP(id);
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Failed to delete RSVP", error);
+    return NextResponse.json({ success: false, error: "Failed to delete RSVP" }, { status: 500 });
+  }
+}

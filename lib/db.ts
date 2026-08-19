@@ -47,3 +47,10 @@ export async function saveRSVP(rsvp: Omit<RSVP, 'id' | 'createdAt'>): Promise<vo
   };
   await addDoc(rsvpsRef, newRSVP);
 }
+
+import { doc, deleteDoc } from "firebase/firestore";
+
+export async function deleteRSVP(id: string): Promise<void> {
+  const rsvpDoc = doc(db, "rsvps", id);
+  await deleteDoc(rsvpDoc);
+}

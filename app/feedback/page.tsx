@@ -45,6 +45,25 @@ export default function FeedbackPage() {
     }
   };
 
+  const handleDelete = async (id: string) => {
+    if (!window.confirm("Biztosan törölni szeretnéd ezt a jelentkezést?")) return;
+    try {
+      const res = await fetch("/api/rsvp", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id })
+      });
+      if (res.ok) {
+        setRsvps(prev => prev.filter(r => r.id !== id));
+      } else {
+        alert("Hiba történt a törlés során.");
+      }
+    } catch (e) {
+      console.error("Törlési hiba:", e);
+      alert("Hálózati hiba történt a törlés során.");
+    }
+  };
+
   if (!isAuthenticated) {
     return (
       <div className="page" style={{ justifyContent: "center", minHeight: "100vh" }}>
@@ -115,12 +134,20 @@ export default function FeedbackPage() {
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                 {attending.map((rsvp) => (
-                  <div key={rsvp.id} style={{ border: "1px solid var(--foreground)", padding: "1.5rem", borderRadius: "0.5rem" }}>
+                  <div key={rsvp.id} style={{ border: "1px solid var(--foreground)", padding: "1.5rem", borderRadius: "0.5rem", position: "relative" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1rem" }}>
                       <strong style={{ fontSize: "1.2rem" }}>{rsvp.adultNames?.join(", ")}</strong>
-                      <span style={{ fontSize: "0.85rem", opacity: 0.7 }}>
-                        {new Date(rsvp.createdAt).toLocaleString("hu-HU", { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
-                      </span>
+                      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                        <span style={{ fontSize: "0.85rem", opacity: 0.7 }}>
+                          {new Date(rsvp.createdAt).toLocaleString("hu-HU", { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                        <button 
+                          onClick={() => handleDelete(rsvp.id)}
+                          style={{ backgroundColor: "#d9534f", color: "white", border: "none", padding: "0.25rem 0.5rem", borderRadius: "0.25rem", cursor: "pointer", fontSize: "0.8rem" }}
+                        >
+                          Törlés
+                        </button>
+                      </div>
                     </div>
                     
                     <p style={{ margin: "0.5rem 0" }}>Létszám: {rsvp.adultCount} felnőtt</p>
@@ -157,11 +184,19 @@ export default function FeedbackPage() {
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                 {declining.map((rsvp) => (
-                  <div key={rsvp.id} style={{ border: "1px solid rgba(255,255,255,0.2)", padding: "1rem", borderRadius: "0.5rem", display: "flex", justifyContent: "space-between" }}>
+                  <div key={rsvp.id} style={{ border: "1px solid rgba(255,255,255,0.2)", padding: "1rem", borderRadius: "0.5rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <span>{rsvp.declinerName}</span>
-                    <span style={{ fontSize: "0.85rem", opacity: 0.7 }}>
-                      {new Date(rsvp.createdAt).toLocaleString("hu-HU", { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
-                    </span>
+                    <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                      <span style={{ fontSize: "0.85rem", opacity: 0.7 }}>
+                        {new Date(rsvp.createdAt).toLocaleString("hu-HU", { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                      <button 
+                        onClick={() => handleDelete(rsvp.id)}
+                        style={{ backgroundColor: "#d9534f", color: "white", border: "none", padding: "0.25rem 0.5rem", borderRadius: "0.25rem", cursor: "pointer", fontSize: "0.8rem" }}
+                      >
+                        Törlés
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
