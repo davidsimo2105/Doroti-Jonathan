@@ -484,4 +484,53 @@ a {
   .section {
     padding: 3.75rem 0;
   }
+  
+  .adminCardHeader {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .adminCardActions {
+    justify-content: flex-end;
+  }
+  
+  .adminCardDeclined {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/* Feedback Page (Mobile First) */
+.adminPage {
+  padding-top: 2rem !important;
+  padding-bottom: 2rem !important;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  align-items: stretch;
+}
+
+.adminCardHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.adminCardActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.adminCardDeclined {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }

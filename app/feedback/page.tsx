@@ -113,7 +113,7 @@ export default function FeedbackPage() {
   const totalKids = attending.reduce((sum, r) => sum + (r.children?.length || 0), 0);
 
   return (
-    <div className="page" style={{ paddingTop: "4rem", paddingBottom: "4rem", width: "100%", maxWidth: "800px", margin: "0 auto", alignItems: "stretch" }}>
+    <div className="page adminPage">
       <h1 className="names" style={{ marginBottom: "2rem", textAlign: "center" }}>Visszajelzések</h1>
       
       {loading ? (
@@ -135,15 +135,15 @@ export default function FeedbackPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                 {attending.map((rsvp) => (
                   <div key={rsvp.id} style={{ border: "1px solid var(--foreground)", padding: "1.5rem", borderRadius: "0.5rem", position: "relative" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1rem" }}>
-                      <strong style={{ fontSize: "1.2rem" }}>{rsvp.adultNames?.join(", ")}</strong>
-                      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                        <span style={{ fontSize: "0.85rem", opacity: 0.7 }}>
+                    <div className="adminCardHeader">
+                      <strong style={{ fontSize: "1.2rem", wordBreak: "break-word" }}>{rsvp.adultNames?.join(", ")}</strong>
+                      <div className="adminCardActions">
+                        <span style={{ fontSize: "0.85rem", opacity: 0.7, whiteSpace: "nowrap" }}>
                           {new Date(rsvp.createdAt).toLocaleString("hu-HU", { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
                         </span>
                         <button 
                           onClick={() => handleDelete(rsvp.id)}
-                          style={{ backgroundColor: "#d9534f", color: "white", border: "none", padding: "0.25rem 0.5rem", borderRadius: "0.25rem", cursor: "pointer", fontSize: "0.8rem" }}
+                          style={{ backgroundColor: "#d9534f", color: "white", border: "none", padding: "0.4rem 0.75rem", borderRadius: "0.25rem", cursor: "pointer", fontSize: "0.85rem", fontWeight: "bold" }}
                         >
                           Törlés
                         </button>
@@ -184,15 +184,15 @@ export default function FeedbackPage() {
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                 {declining.map((rsvp) => (
-                  <div key={rsvp.id} style={{ border: "1px solid rgba(255,255,255,0.2)", padding: "1rem", borderRadius: "0.5rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span>{rsvp.declinerName}</span>
-                    <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                      <span style={{ fontSize: "0.85rem", opacity: 0.7 }}>
+                  <div key={rsvp.id} className="adminCardDeclined">
+                    <span style={{ wordBreak: "break-word" }}>{rsvp.declinerName}</span>
+                    <div className="adminCardActions">
+                      <span style={{ fontSize: "0.85rem", opacity: 0.7, whiteSpace: "nowrap" }}>
                         {new Date(rsvp.createdAt).toLocaleString("hu-HU", { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
                       </span>
                       <button 
                         onClick={() => handleDelete(rsvp.id)}
-                        style={{ backgroundColor: "#d9534f", color: "white", border: "none", padding: "0.25rem 0.5rem", borderRadius: "0.25rem", cursor: "pointer", fontSize: "0.8rem" }}
+                        style={{ backgroundColor: "#d9534f", color: "white", border: "none", padding: "0.4rem 0.75rem", borderRadius: "0.25rem", cursor: "pointer", fontSize: "0.85rem", fontWeight: "bold" }}
                       >
                         Törlés
                       </button>
