@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 
-const RSVP_EMAIL = "doroti.mink@gmail.com";
+const RSVP_EMAIL = "vidadoroti@gmail.com,vidajonatan777@gmail.com";
 
 function onlyDigits(value: string) {
   return value.replace(/[^0-9]/g, "");
