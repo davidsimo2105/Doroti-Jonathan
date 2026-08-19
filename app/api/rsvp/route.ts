@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
-import { saveRSVP, getRSVPs } from '@/lib/db';
+import { saveRSVP, getRSVPs, deleteRSVP } from '@/lib/db';
+
+export const dynamic = 'force-dynamic';
 
 export async function POST(request: Request) {
   try {
@@ -22,7 +24,6 @@ export async function GET() {
   }
 }
 
-import { deleteRSVP } from '@/lib/db';
 
 export async function DELETE(request: Request) {
   try {
