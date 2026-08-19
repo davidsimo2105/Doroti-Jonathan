@@ -20,6 +20,7 @@ export default function RsvpForm() {
   const [children, setChildren] = useState<{ name: string; age: string }[]>([]);
 
   const [notes, setNotes] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   function handleAdultCountChange(e: React.ChangeEvent<HTMLInputElement>) {
     const val = onlyDigits(e.target.value);
@@ -81,7 +82,7 @@ export default function RsvpForm() {
       ? declinerName.trim().length > 0 
       : (attendance === "attending" && isAdultsFilled);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (attendance === "declining") {
@@ -97,6 +98,18 @@ export default function RsvpForm() {
         `Részvétel: Nem tud részt venni`,
         `Név: ${declinerName || "Vendég"}`
       ].join("\n");
+
+      // Save to DB
+      await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          attendance: "declining",
+          declinerName
+        })
+      });
+
+      setIsSubmitted(true);
       const mailto = `mailto:${RSVP_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       window.location.href = mailto;
       return;
@@ -149,6 +162,21 @@ export default function RsvpForm() {
       ...(notes.trim() ? ["", `Megjegyzés (pl. ételérzékenység):`, notes.trim()] : []),
     ].join("\n");
 
+    // Save to DB
+    await fetch('/api/rsvp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        attendance: "attending",
+        adultCount: adultCountNum,
+        adultNames,
+        bringingKids,
+        children: bringingKids ? children : [],
+        notes
+      })
+    });
+
+    setIsSubmitted(true);
     const mailto = `mailto:${RSVP_EMAIL}?subject=${encodeURIComponent(
       subject
     )}&body=${encodeURIComponent(body)}`;
@@ -328,6 +356,13 @@ export default function RsvpForm() {
       >
         Visszajelzés küldése
       </button>
+
+      {isSubmitted && (
+        <p style={{ textAlign: "center", marginTop: "1.5rem", color: "var(--foreground)", fontWeight: "bold", opacity: 0.9 }}>
+          Sikeresen rögzítettük a válaszod!<br />
+          <span style={{ fontSize: "0.9rem", fontWeight: "normal" }}>(A leveleződ hamarosan megnyílik...)</span>
+        </p>
+      )}
     </form>
   );
 }
