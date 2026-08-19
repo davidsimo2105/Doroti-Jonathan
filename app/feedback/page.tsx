@@ -122,7 +122,7 @@ export default function FeedbackPage() {
         <div style={{ display: "flex", flexDirection: "column", gap: "3rem" }}>
           
           <section>
-            <h2 style={{ fontSize: "1.5rem", borderBottom: "1px solid var(--foreground)", paddingBottom: "0.5rem", marginBottom: "1rem" }}>
+            <h2>
               Ott lesznek ({attending.length} család / visszajelzés)
             </h2>
             <p style={{ marginBottom: "1.5rem", opacity: 0.8 }}>
@@ -143,9 +143,14 @@ export default function FeedbackPage() {
                         </span>
                         <button 
                           onClick={() => handleDelete(rsvp.id)}
-                          style={{ backgroundColor: "#d9534f", color: "white", border: "none", padding: "0.4rem 0.75rem", borderRadius: "0.25rem", cursor: "pointer", fontSize: "0.85rem", fontWeight: "bold" }}
+                          style={{ backgroundColor: "transparent", color: "#d9534f", border: "none", padding: "0.25rem", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+                          title="Törlés"
                         >
-                          Törlés
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M3 6h18"></path>
+                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                          </svg>
                         </button>
                       </div>
                     </div>
@@ -175,7 +180,7 @@ export default function FeedbackPage() {
           </section>
 
           <section>
-            <h2 style={{ fontSize: "1.5rem", borderBottom: "1px solid var(--foreground)", paddingBottom: "0.5rem", marginBottom: "1rem" }}>
+            <h2>
               Nem tudnak részt venni ({declining.length})
             </h2>
             
@@ -192,9 +197,14 @@ export default function FeedbackPage() {
                       </span>
                       <button 
                         onClick={() => handleDelete(rsvp.id)}
-                        style={{ backgroundColor: "#d9534f", color: "white", border: "none", padding: "0.4rem 0.75rem", borderRadius: "0.25rem", cursor: "pointer", fontSize: "0.85rem", fontWeight: "bold" }}
+                        style={{ backgroundColor: "transparent", color: "#d9534f", border: "none", padding: "0.25rem", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+                        title="Törlés"
                       >
-                        Törlés
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M3 6h18"></path>
+                          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                        </svg>
                       </button>
                     </div>
                   </div>
